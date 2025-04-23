@@ -16,7 +16,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 @ExtendWith(MockitoExtension.class)
 public class LionTest {
 
-    @Spy
+    @Mock
     private Feline feline;
 
     static Stream<Arguments> doesHaveManeTestDataPositive() {
@@ -40,15 +40,23 @@ public class LionTest {
     @ParameterizedTest
     @DisplayName("Проверка негативного сценария метода doesHaveMane класса Lion, вызов ошибки")
     @MethodSource("doesHaveManeTestDataNegative")
-    public void lionDoesHaveManTestNegative(String sex, Class<? extends Exception> exception) throws Exception {
+    public void lionDoesHaveManTestNegative(String sex, Class<? extends Exception> exception) {
         assertThrows(exception, () -> new Lion(feline, sex).doesHaveMane());
     }
 
-    @DisplayName("Проверка вызова getKittens у Feline")
+    @DisplayName("Проверка, что при вызове метода getKittens у экземпляра класса Lion у feline вызывается метод getKittens")
     @Test
     public void lionGetKittensTestPositive() throws Exception {
         Lion lion = new Lion(feline, "Самец");
-        assertEquals(1, lion.getKittens());
+        lion.getKittens();
+        Mockito.verify(feline).getKittens();
+    }
+
+    @Test
+    public void testGetKittens() throws Exception {
+        Mockito.when(feline.getKittens()).thenReturn(3);
+        Lion lion = new Lion(feline, "Самец");
+        assertEquals(3, lion.getKittens());
     }
 
 }

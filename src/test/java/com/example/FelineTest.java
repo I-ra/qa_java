@@ -15,23 +15,29 @@ public class FelineTest {
     @Spy
     private Feline feline;
 
-    @DisplayName("Проверка getKittens с параметром")
+    @DisplayName("Проверка работы метода getKittens с параметром")
     @Test
     public void getKittens10Returns10() {
         assertEquals(10, feline.getKittens(10));
-        Mockito.verify(feline, Mockito.times(1)).getKittens(10);
     }
-    @DisplayName("Проверка getKittens без параметра")
+
+    @DisplayName("Проверка работы метода getKittens без параметра")
     @Test
     void getKittensReturns1() {
         assertEquals(1, feline.getKittens());
+    }
+
+    @DisplayName("Проверка вызова из метода getKittens без параметра метода getKittens с параметром 1")
+    @Test
+    void getKittensCallVerification() {
+        feline.getKittens();
         Mockito.verify(feline, Mockito.times(1)).getKittens(1);
     }
 
     @DisplayName("Проверка метода getFamily")
     @Test
     public void getFamilyTest() {
-        assertEquals("Кошачьи", feline.getFamily());
+        assertEquals("Кошачьи", new Feline().getFamily());
     }
     @DisplayName("Проверка метода eatMeat")
     @Test

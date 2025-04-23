@@ -14,7 +14,7 @@ public class Lion {
         } else {
             throw new Exception("Используйте допустимые значения пола животного - самец или самка");
         }
-        this.feline = new Feline();
+        this.feline = feline;
     }
     public boolean doesHaveMane() {
         return hasMane;
